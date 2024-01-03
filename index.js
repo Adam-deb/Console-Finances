@@ -86,3 +86,58 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
+
+// Calculating the number of months
+
+var numMonths = finances.length;
+
+//calculating the net total of profit/loss over entire period by using a for loop
+
+var sumProfit = 0;
+
+for(var i=0; i<numMonths; i++){
+  sumProfit += finances[i][1];
+};
+
+//calculating the average month on month changes in profit/loss by:
+//first creating a new array ("changes") containing the relative monthly change in profit/loss,
+//using a loop to get the total month on month changes and then,
+//calculating the average change by using the formula of: averageChange = totalChange / (numMonths - 1)
+
+var changes = [];
+
+for(var i=1; i<numMonths; i++){
+  change = finances[i][1] - finances[i - 1][1];
+  changes.push(change);
+}
+
+totalChange = 0
+
+for(var i=0; i<changes.length; i++){
+  totalChange += changes[i];
+};
+
+var averageChange = totalChange / (numMonths - 1);
+
+//Calculating the maximum increases and decreases in profit and loss by looping through the "changes" array,
+//and using if conditions to get the indexes for the corresponding increases/decreases in the "changes" array to obtain
+//the increase/decrease value, then using the index to capture the month of the increase/decrease in the "finances" array
+
+var maxIncrease = changes[0];
+var maxDecrease = changes[0];
+
+for (let i = 0; i < changes.length; i++) {
+    if (maxIncrease < changes[i]) {
+      maxIncrease = changes[i];
+      var maxIncreaseMonth = finances[i + 1][0];
+    };
+    if (maxDecrease > changes[i]) {
+      maxDecrease = changes[i];
+      var maxDecreaseMonth = finances[i + 1][0];
+    };
+  };
+
+//Presenting the results as described in the readme file of the challenge:
+
+console.log(
+  "Financial Analysis\n---------------\nTotal Months: "+numMonths+"\nTotal: $"+sumProfit+"\nAverage Change: $"+averageChange.toFixed(2)+"\nGreatest Increase in Profits/Losses: "+maxIncreaseMonth+" ($"+maxIncrease+")\nGreatest Decrease in Profits/Losses: "+maxDecreaseMonth+" ($"+maxDecrease+")");
